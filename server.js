@@ -5,6 +5,9 @@ const helmet = require("helmet");
 const mongoSanitize = require("express-mongo-sanitize");
 const morgan = require("morgan");
 
+const AppError = require("./utils/AppError");
+const errorHandler = require("./middleware/errorHandler");
+
 // Database Connection
 const connectDB = require("./config/db");
 const app = express();
@@ -30,8 +33,13 @@ app.get("/api/v1/health", (req, res) => {
     });
 });
 
-// 5. Global Error Handler Placeholder (We build this next!)
-// app.use(errorHandler);
+// Use a regular expression directly - this is the "Universal" way
+app.all(/.*/, (req, res, next) => {   // We create a new AppError and pass it into next(). 
+    // Express immediately skips everything else and jumps to the Error Handler.
+    next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
+});
+// 2. THE GLOBAL ERROR HANDLER: This catches the error from above, or any database crashes.
+app.use(errorHandler);
 
 // 6. Start Server
 const PORT = process.env.PORT || 8000;
