@@ -9,6 +9,7 @@ const connectDB = require("./config/db");
 const AppError = require("./utils/AppError");
 const errorHandler = require("./middleware/errorHandler");
 const issueRouter = require("./routes/issueRoutes");
+const userRouter = require('./routes/userRoutes');
 
 // 2. Initialize App
 const app = express();
@@ -33,11 +34,11 @@ app.get("/api/v1/health", (req, res) => {
     });
 });
 
-// Mounting Issue Routes
+// Mounting Routes
 app.use("/api/v1/issues", issueRouter);
+app.use('/api/v1/users', userRouter);
 
-// 5. Error Handling
-// Catch-all for undefined routes (Express 5/Node 25 compatible)
+// 5. Error Handling Catch-all for undefined routes (Express 5/Node 25 compatible)
 app.all(/.*/, (req, res, next) => {
     next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
 });

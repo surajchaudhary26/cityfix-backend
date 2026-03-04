@@ -16,8 +16,8 @@ const issueSchema = new mongoose.Schema(
       type: String,
       required: [true, "An issue must belong to a category"],
       enum: {
-        values: ["Roads", "Water", "Electricity", "Waste", "Other"],
-        message: "Category must be: Roads, Water, Electricity, Waste, or Other",
+        values: ["Roads", "Water", "Electricity", "Waste", "Sewage", "Other"],
+        message: "Category must be: Roads, Water, Electricity, Waste, Sewage, or Other",
       },
     },
     status: {
