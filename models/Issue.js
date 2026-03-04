@@ -31,14 +31,27 @@ const issueSchema = new mongoose.Schema(
       required: [true, "Please provide the location of the issue"],
     },
     imageUrl: {
-      type: String, // We will store the Cloudinary link here later
+      type: String, 
       default: "default-issue.jpg",
     },
-    // We use timestamps to automatically track when it was reported/updated
+    // ⭐ ADDED THIS FIELD: This creates the link to the User model
+    user: {
+      type: mongoose.Schema.ObjectId,
+      ref: 'User',
+      required: [true, 'An issue must belong to a user.']
+    }
   },
   { timestamps: true }
 );
 
+// ✅ FIXED MIDDLEWARE: Removed 'next' to prevent the "not a function" error
+issueSchema.pre(/^find/, function() {
+  this.populate({
+    path: 'user',        
+    select: 'name email' 
+  });
+  // No next() needed for modern Mongoose find hooks
+});
 
 const Issue = mongoose.model("Issue", issueSchema);
 

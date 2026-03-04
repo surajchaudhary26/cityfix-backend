@@ -4,6 +4,11 @@ const AppError = require("../utils/AppError");
 // This function handles the "POST" request to create a new report
 exports.createIssue = async (req, res, next) => {
     try {
+
+        // 1. Get the user ID from the 'protect' middleware
+        // We set req.user in authController.protect!
+        if (!req.body.user) req.body.user = req.user.id;
+        
         // 1. Create the issue in the database using the data from the user (req.body)
         const newIssue = await Issue.create(req.body);
 
