@@ -3,8 +3,17 @@ const issueController = require("../controllers/issueController");
 const authController = require('../controllers/authController');
 const router = express.Router();
 
-// Define the route: POST /api/v1/issues
+const multer = require('multer');
+const { storage } = require('../utils/cloudinary');
+const upload = multer({ storage: storage });
+// Update your POST route to include upload.single('image')
+router.post('/', 
+  authController.protect, 
+  upload.single('image'), // 'image' is the key name in Thunder Client
+  issueController.createIssue
+);
 
+// Define the route: POST /api/v1/issues
 // Professional way: Chain multiple methods to the same route
 router
   .route("/")

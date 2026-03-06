@@ -24,4 +24,18 @@ const errorHandler = (err, req, res, next) => {
 };
 
 // Export the net so our server can use it
-module.exports = errorHandler;
+module.exports = (err, req, res, next) => {
+  // ⭐ FIX: If err.statusCode is undefined, default to 500 (Internal Server Error)
+  err.statusCode = err.statusCode || 500;
+  err.status = err.status || 'error';
+
+  // Professional SDE tip: Log the error to your console so you can see WHAT failed
+  console.error('ERROR 💥:', err);
+
+  res.status(err.statusCode).json({
+    status: err.status,
+    message: err.message,
+    // Include stack trace only in development mode
+    stack: err.stack
+  });
+};

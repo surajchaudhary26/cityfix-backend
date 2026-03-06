@@ -5,11 +5,13 @@ const AppError = require("../utils/AppError");
 exports.createIssue = async (req, res, next) => {
     try {
 
-        // 1. Get the user ID from the 'protect' middleware
-        // We set req.user in authController.protect!
         if (!req.body.user) req.body.user = req.user.id;
-        
-        // 1. Create the issue in the database using the data from the user (req.body)
+
+        // If a file was uploaded, save its URL to the imageUrl field
+        if (req.file) {
+            req.body.imageUrl = req.file.path; 
+        }
+
         const newIssue = await Issue.create(req.body);
 
         // 2. Send a success response back to the citizen

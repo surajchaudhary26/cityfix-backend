@@ -40,11 +40,7 @@ const userSchema = new mongoose.Schema({
       message: "Passwords are not the same!"
     }
   },
-  user: {
-    type: mongoose.Schema.ObjectId,
-    ref: 'User', // This MUST match the name in mongoose.model('User', ...)
-    required: [true, 'An issue must belong to a user.']
-  },
+  
   createdAt: {
     type: Date,
     default: Date.now()
