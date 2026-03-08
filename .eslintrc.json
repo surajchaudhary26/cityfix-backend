@@ -1,0 +1,1 @@
+{\n  "env": {\n    "node": true,\n    "es6": true\n  },\n  "extends": "eslint:recommended",\n  "rules": {\n    "no-console": "off",\n    "quotes": ["error", "single"],\n    "semi": ["error", "always"],\n    "indent": ["error", 2]   \n  }\n}
